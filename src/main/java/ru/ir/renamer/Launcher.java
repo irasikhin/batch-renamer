@@ -14,13 +14,13 @@ public class Launcher {
         try {
             Options options = new Options();
             options.addOption("e", "regexp", false, "Use regexp as parse engine");
-            options.addOption("d", "directory", true, "Where to find files");
+            options.addOption("d", "directory", true, "Where are to find files");
             CommandLineParser parser = new DefaultParser();
             CommandLine cmd = parser.parse(options, args);
-            Replacer<String> replacer = new Replacer.NoReplacer<>();
+            Replacer<Path> replacer = new Replacer.NoReplacer<>();
             Finder<Path> finder = new Finder.NoFinder<>();
             if (cmd.hasOption("e")) {
-                replacer = new RegExStringReplacer(cmd.getArgs()[0], cmd.getArgs()[1]);
+                replacer = new PathReplacer(new RegExStringReplacer(cmd.getArgs()[0], cmd.getArgs()[1]));
                 finder = new RegExFileFinder(Paths.get(cmd.getOptionValue("d", ".")), cmd.getArgs()[0]);
             }
 
